@@ -1,1 +1,162 @@
+html {
+    scroll-behavior: smooth;
+    margin: 0px;
+    height: 100%;
+}
 
+body {
+    margin: 0px;
+    height: 100%;
+    background-color: beige;
+}
+
+.heading {
+    display: flex;
+    flex-direction: column;
+    background-color: gray;
+}
+
+#web-title {
+    font-size: 30px;
+    color: black;
+}
+
+#web-title:hover {
+    cursor: default;
+}
+
+/* search engine */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#search {
+    border-radius: 10px;
+    margin: 0 1rem 1rem 1rem;
+    padding: 6px;
+    border: 5px solid black;
+    font-size: 17px;
+    width: 90rem;
+    border-color: black;
+    background-color: beige;
+    height: 50px;
+  }
+#search-button {
+    transition-duration: 0.4s;
+    height: 45px;
+    margin: 0 0 1rem 0;
+    text-align: center;
+    /* background-color: #4CAF50;
+    padding: 25px 35px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    margin: auto;  */
+}
+
+/*  
+#search-button:hover {
+    background-color: #4CAF50;
+    color: white;
+  }  */
+
+.popup {
+    position: absolute;
+    z-index: -1;
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 50px;
+    row-gap: 50px;
+}
+
+
+.outer-flip {
+    /* position: relative; */
+    background-color: transparent;
+    perspective: 1000px;
+}
+
+.inner-flip {
+    position: relative;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.outer-flip:hover .inner-flip {
+    transform: rotateY(180deg);
+}
+
+.movie-poster, .movie-rating {
+    /* position: absolute;
+    top: 0;
+    left: 0; */
+    backface-visibility: hidden;
+} 
+
+.movie-poster {
+    border-radius: 7px;
+}
+
+.movie-rating {
+    background-color: black;
+    color: beige;
+    transform: rotateY(180deg);
+}
+
+.movie-name {
+    color: black;
+    text-align: center;
+}
+
+  /* responsiveness */
+@media only screen and (min-width: 100px) {
+    .movie-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .movie-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.bottom-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+  
+
+  
+  
+  
+
+  
+
+  
