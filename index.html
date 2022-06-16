@@ -9,19 +9,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="main-body">
     <div class="heading">
         <div id="web-title" onclick="backToStandard()">Flixster</div>
         <div class="search-container">
             <input id="search" type="input" placeholder="Search Movie...">
             <button id="search-button" type="button" class="btn btn-default btn-lg" onclick="searchMovie()">Search</button>
         </div>
-    </div>
-    <div class="popup">
-        <button id="close" type="button" class="btn btn-default" onclick="disappearPopup()">X</button>
-        <iframe id="trailer" type="text/html" 
-        src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com" frameborder="0"></iframe>
-        <p id="summary">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores voluptates adipisci accusantium expedita distinctio pariatur incidunt ratione nam harum neque.</p>
     </div>
     <div class="movie-grid">
     </div>

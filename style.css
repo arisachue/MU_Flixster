@@ -13,7 +13,8 @@ body {
 .heading {
     display: flex;
     flex-direction: column;
-    background-color: gray;
+    background-color: red;
+    opacity: 0.2;
 }
 
 #web-title {
@@ -71,12 +72,31 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    top: 0px;
+    align-items: center;
+    top: 100px;
     right: 0px;
     bottom: 0px;
     left: 0px;
+    visibility: hidden;
 }
 
+#trailer {
+    height: 40rem;
+    width: 60rem;
+    margin: 5rem 0 5rem 0;
+}
+
+#close {
+    position: absolute;
+    top: 0px;
+    left: 95%;
+    width: 5rem;
+    height: 5rem;
+}
+
+#summary {
+    width: 60rem;
+}
 
 .movie-grid {
     display: grid;

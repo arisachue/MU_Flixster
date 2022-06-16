@@ -111,6 +111,8 @@ const movies = [
 
 const movieGridElem = document.querySelector(".movie-grid")
 const searchEngine = document.querySelector("#search")
+const mainWebsite = document.querySelector(".main-body")
+const ratings = document.querySelectorAll(".movie-rating")
 
 var curMovies = new Array()
 // var curIndex = 0;
@@ -130,7 +132,7 @@ function addMovies(movie) {
             <div class="outer-flip">
             <div class="inner-flip">
                 <img class="movie-poster" src="${movie_url}" alt="${movie.title}">
-                <h2 class="movie-rating">${movie.voteAverage}</h2>
+                <h2 class="movie-rating" onclick="openPopup()">${movie.voteAverage}</h2>
             </div>
             </div>
             <h3 class="movie-name">${movie.title}</h3>
@@ -188,6 +190,23 @@ function backToStandard() {
     curMovies.forEach(addMovies)
 }
 
+function disappearPopup() {
+    document.querySelector(".popup").style.visibility = "hidden";
+}
+
+function openPopup() {
+    trailer_url = "https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com" 
+    trailer_summary = "test summary"
+    mainWebsite.innerHTML += `
+    <div class="popup">
+        <button id="close" type="button" class="btn btn-default" onclick="disappearPopup()">X</button>
+        <iframe id="trailer" type="text/html" 
+        src="${trailer_url}" frameborder="0"></iframe>
+        <p id="summary">${trailer_summary}</p>
+    </div>
+    `
+    document.querySelector(".popup").style.visibility = "visible";
+}
 
 
 window.onload = function () {
@@ -195,6 +214,13 @@ window.onload = function () {
         curMovies.push(movies[i])
     }
     curMovies.forEach(addMovies)
+
+
+    // for (let i = 0; i < ratings.length; i++) {
+    //     ratings[i].addEventListener('click', function(event){
+    //         openPopup();
+    //     });
+    // }
 }
 
 // updateCurrent(8)
