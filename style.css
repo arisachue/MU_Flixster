@@ -19,10 +19,14 @@ body {
 #web-title {
     font-size: 30px;
     color: black;
+    padding: 2rem;
+    width: 150px;
 }
 
 #web-title:hover {
     cursor: default;
+    background-color: black;
+    color:beige;
 }
 
 /* search engine */
@@ -100,8 +104,9 @@ body {
 .movie-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    column-gap: 50px;
-    row-gap: 50px;
+    column-gap: 25px;
+    row-gap: 25px;
+    padding: 1rem;
 }
 
 

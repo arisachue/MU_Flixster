@@ -131,18 +131,17 @@ const LOADSIZE = 10;
 const getResults = async () => {
     try {
         console.log("in api request")
-        const res = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${myApi}`)
+        const res = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${myApi}&page=1`)
         const data = await res.json()
         // console.log(data)
         // console.log(data.results)
         for (let i = 0; i < data.results.length; i++) {
-            var movie_url = imageBaseUrl + data.results[i].poster_path
+            // var movie_url = imageBaseUrl + data.results[i].poster_path
             const curMovie = {
                 id: data.results[i].id,
                 title: data.results[i].title,
                 posterPath: data.results[i].poster_path,
                 voteAverage: data.results[i].vote_average,
-                url: imageBaseUrl + data.results[i].poster_path
             }
             // console.log(curMovie)
             apiMovies.push(curMovie)
@@ -155,13 +154,13 @@ const getResults = async () => {
 
 function addMovies(movie) {
     console.log("add movie")
-    // var movie_url = imageBaseUrl + movie.posterPath
+    var movie_url = imageBaseUrl + movie.posterPath
     // console.log(movie_url)
     movieGridElem.innerHTML += `
         <div class="movie-item" id="movie-${movie.id}" onclick="openPopup(${movie.id})">
             <div class="outer-flip">
                 <div class="inner-flip">
-                    <img class="movie-poster" src="${movie.url}" alt="${movie.title}">
+                    <img class="movie-poster" src="${movie_url}" alt="${movie.title}">
                     <h2 class="movie-rating">${movie.voteAverage}</h2>
                 </div>
             </div>
@@ -174,34 +173,65 @@ function addMovies(movie) {
 
 
 
-function loadMore() {
-    var curIndex = curMovies.length
-    for (let i = curIndex; i < curIndex + 5; i++) {
-        if (i >= movies.length) {
-            break;
+const loadMore = async () => {
+    var nextPage = (apiMovies.length / 20) + 1;
+    const res = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${myApi}&page=${nextPage}`)
+    const data = await res.json()
+
+    for (let i = 0; i < data.results.length; i++) {
+        const curMovie = {
+            id: data.results[i].id,
+            title: data.results[i].title,
+            posterPath: data.results[i].poster_path,
+            voteAverage: data.results[i].vote_average,
         }
-        addMovies(movies[i])
-        curMovies.push(movies[i])
+        addMovies(curMovie)
+        apiMovies.push(curMovie)
     }
+
+    // var curIndex = curMovies.length
+    // for (let i = curIndex; i < curIndex + 5; i++) {
+    //     if (i >= movies.length) {
+    //         break;
+    //     }
+    //     addMovies(movies[i])
+    //     curMovies.push(movies[i])
+    // }
 }
 
-function searchMovieResults(word) {
-    word = word.toUpperCase()
+const searchMovieResults = async (word) => {
+    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${myApi}&query=${word}&page=1`)
+    const data = await res.json()
+    console.log(data.results)
+    // word = word.toUpperCase()
     var newResult = new Array()
-    for (let i = 0; i < movies.length; i++) {
-        var curTitle = movies[i].title.toUpperCase()
-        if (curTitle.includes(word)) {
-            newResult.push(movies[i])
+    for (let i = 0; i < data.results.length; i++) {
+        const curMovie = {
+            id: data.results[i].id,
+            title: data.results[i].title,
+            posterPath: data.results[i].poster_path,
+            voteAverage: data.results[i].vote_average,
         }
+        // console.log(curMovie)
+        newResult.push(curMovie)
     }
     return newResult
+    // for (let i = 0; i < movies.length; i++) {
+    //     var curTitle = movies[i].title.toUpperCase()
+    //     if (curTitle.includes(word)) {
+    //         newResult.push(movies[i])
+    //     }
+    // }
+    // return newResult
 }
 
-function searchMovie() {
+async function searchMovie() {
     if (searchEngine.value != "") {
         movieGridElem.innerHTML = ``
-        var newMovies = searchMovieResults(searchEngine.value)
+        var newMovies = await searchMovieResults(searchEngine.value)
         newMovies.forEach(addMovies)
+        searchEngine.value = null
+        searchEngine.placeholder = "Search Movie..."
     }
     else {
         backToStandard()
@@ -221,7 +251,7 @@ document.addEventListener("keyup", function(event) {
 
 function backToStandard() {
     movieGridElem.innerHTML = ``
-    curMovies.forEach(addMovies)
+    apiMovies.forEach(addMovies)
 }
 
 function disappearPopup() {
