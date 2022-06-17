@@ -1,12 +1,11 @@
 html {
     scroll-behavior: smooth;
     margin: 0px;
-    height: 100%;
+    min-width: 500px;
 }
 
 body {
     margin: 0px;
-    height: 100%;
     background-color: beige;
 }
 
@@ -67,7 +66,7 @@ body {
 
 .popup {
     position: absolute;
-    z-index: -1;
+    z-index: 10;
     background-color: grey;
     display: flex;
     flex-direction: column;
@@ -110,34 +109,43 @@ body {
     /* position: relative; */
     background-color: transparent;
     perspective: 1000px;
+    justify-content: center;
+    align-items: center;
 }
 
 .inner-flip {
     position: relative;
     text-align: center;
-    transition: transform 0.8s;
+    transition: transform 0.5s;
     transform-style: preserve-3d;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .outer-flip:hover .inner-flip {
     transform: rotateY(180deg);
 }
 
-.movie-poster, .movie-rating {
-    /* position: absolute;
-    top: 0;
-    left: 0; */
-    backface-visibility: hidden;
-} 
-
-.movie-poster {
-    border-radius: 7px;
-}
-
 .movie-rating {
+    position: absolute;
+    top: 0;
+    bottom: auto;
+    text-align: center;
+    vertical-align: middle;
+    margin: 0;
+    border-radius: 7px;
+    backface-visibility: hidden;
+    width: 300px;
+    height: 100%;
     background-color: black;
     color: beige;
     transform: rotateY(180deg);
+} 
+
+.movie-poster {
+    backface-visibility: hidden;
+    border-radius: 7px;
 }
 
 .movie-name {
@@ -146,21 +154,21 @@ body {
 }
 
   /* responsiveness */
-@media only screen and (min-width: 100px) {
+@media only screen and (max-width: 1350px) {
     .movie-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (max-width: 1000px) {
     .movie-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media only screen and (min-width: 700px) {
+@media only screen and (max-width: 700px) {
     .movie-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr;
     }
 }
 

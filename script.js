@@ -1,4 +1,4 @@
-const imageBaseUrl = 'https://image.tmdb.org/t/p/w300'
+
  
 // Example image tag
 // <img class="movie-poster" src="${imageBaseUrl}/w342${movie.posterPath}" alt="${movie.title}" title="${movie.title}"/>
@@ -109,10 +109,13 @@ const movies = [
    }
 ];
 
+const imageBaseUrl = "https://image.tmdb.org/t/p/w300"
 const movieGridElem = document.querySelector(".movie-grid")
 const searchEngine = document.querySelector("#search")
-const mainWebsite = document.querySelector(".main-body")
+const mainWebsite = document.querySelector(".popup")
 const ratings = document.querySelectorAll(".movie-rating")
+const myApi = "e8308ebddbe7e86e8a3e6b1c2cb2b96e"
+var apiMovies = new Array()
 
 var curMovies = new Array()
 // var curIndex = 0;
@@ -125,20 +128,51 @@ const LOADSIZE = 10;
 //     curIndex += num
 // }
 
+const getResults = async () => {
+    try {
+        console.log("in api request")
+        const res = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${myApi}`)
+        const data = await res.json()
+        // console.log(data)
+        // console.log(data.results)
+        for (let i = 0; i < data.results.length; i++) {
+            var movie_url = imageBaseUrl + data.results[i].poster_path
+            const curMovie = {
+                id: data.results[i].id,
+                title: data.results[i].title,
+                posterPath: data.results[i].poster_path,
+                voteAverage: data.results[i].vote_average,
+                url: imageBaseUrl + data.results[i].poster_path
+            }
+            // console.log(curMovie)
+            apiMovies.push(curMovie)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 function addMovies(movie) {
-    movie_url = imageBaseUrl + movie.posterPath
+    console.log("add movie")
+    // var movie_url = imageBaseUrl + movie.posterPath
+    // console.log(movie_url)
     movieGridElem.innerHTML += `
-        <div class="movie-item">
+        <div class="movie-item" id="movie-${movie.id}" onclick="openPopup(${movie.id})">
             <div class="outer-flip">
-            <div class="inner-flip">
-                <img class="movie-poster" src="${movie_url}" alt="${movie.title}">
-                <h2 class="movie-rating" onclick="openPopup()">${movie.voteAverage}</h2>
-            </div>
+                <div class="inner-flip">
+                    <img class="movie-poster" src="${movie.url}" alt="${movie.title}">
+                    <h2 class="movie-rating">${movie.voteAverage}</h2>
+                </div>
             </div>
             <h3 class="movie-name">${movie.title}</h3>
-        </div>
-    `
+        </div>`
+    // const curRate = document.querySelector(`#movie-${movie.id}`)
+    // console.log(curRate)
+    // curRate.addEventListener("click", () => openPopup(movie_url))
 }
+
+
 
 function loadMore() {
     var curIndex = curMovies.length
@@ -194,26 +228,45 @@ function disappearPopup() {
     document.querySelector(".popup").style.visibility = "hidden";
 }
 
-function openPopup() {
-    trailer_url = "https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com" 
-    trailer_summary = "test summary"
-    mainWebsite.innerHTML += `
-    <div class="popup">
+const openPopup = async (curID) => {
+    const youtubeLink = "https://www.youtube.com/embed/"
+
+    console.log("clicked")
+    console.log(curID)
+    
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${curID}?api_key=${myApi}`)
+    const data = await res.json()
+    console.log(data)
+    const resVid = await fetch(`https://api.themoviedb.org/3/movie/${curID}/videos?api_key=${myApi}`)
+    const dataVid = await resVid.json()
+    console.log(dataVid.results)
+    var trailerKey = dataVid.results[0].key
+    console.log(trailerKey)
+    console.log(data.overview)
+
+    var trailer_url = youtubeLink + trailerKey
+    var trailer_summary = data.overview
+
+    // trailer_url = "https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com" 
+    // trailer_summary = "test summary"
+    mainWebsite.innerHTML = `
         <button id="close" type="button" class="btn btn-default" onclick="disappearPopup()">X</button>
         <iframe id="trailer" type="text/html" 
         src="${trailer_url}" frameborder="0"></iframe>
         <p id="summary">${trailer_summary}</p>
-    </div>
     `
     document.querySelector(".popup").style.visibility = "visible";
 }
 
 
-window.onload = function () {
-    for (let i = 0; i < 10; i++) {
-        curMovies.push(movies[i])
-    }
-    curMovies.forEach(addMovies)
+window.onload = async function () {
+    await getResults()
+    console.log(apiMovies)
+    // for (let i = 0; i < 10; i++) {
+    //     curMovies.push(movies[i])
+    // }
+    // curMovies.forEach(addMovies)
+    apiMovies.forEach(addMovies)
 
 
     // for (let i = 0; i < ratings.length; i++) {
