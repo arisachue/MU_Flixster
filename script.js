@@ -116,6 +116,9 @@ const mainWebsite = document.querySelector(".popup")
 const ratings = document.querySelectorAll(".movie-rating")
 const myApi = "e8308ebddbe7e86e8a3e6b1c2cb2b96e"
 var apiMovies = new Array()
+var searchedMovies = new Array()
+var loadingSearches = false;
+var lastSearchedWord = ""
 
 var curMovies = new Array()
 // var curIndex = 0;
@@ -175,19 +178,37 @@ function addMovies(movie) {
 
 const loadMore = async () => {
     var nextPage = (apiMovies.length / 20) + 1;
-    const res = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${myApi}&page=${nextPage}`)
-    const data = await res.json()
-
-    for (let i = 0; i < data.results.length; i++) {
-        const curMovie = {
-            id: data.results[i].id,
-            title: data.results[i].title,
-            posterPath: data.results[i].poster_path,
-            voteAverage: data.results[i].vote_average,
+    if (!loadingSearches) {
+        const res = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${myApi}&page=${nextPage}`)
+        const data = await res.json()
+        for (let i = 0; i < data.results.length; i++) {
+            const curMovie = {
+                id: data.results[i].id,
+                title: data.results[i].title,
+                posterPath: data.results[i].poster_path,
+                voteAverage: data.results[i].vote_average,
+            }
+            addMovies(curMovie)
+            apiMovies.push(curMovie)
         }
-        addMovies(curMovie)
-        apiMovies.push(curMovie)
     }
+    else {
+        const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${myApi}&query=${lastSearchedWord}&page=${nextPage}`)
+        const data = await res.json()
+        for (let i = 0; i < data.results.length; i++) {
+            const curMovie = {
+                id: data.results[i].id,
+                title: data.results[i].title,
+                posterPath: data.results[i].poster_path,
+                voteAverage: data.results[i].vote_average,
+            }
+            addMovies(curMovie)
+            searchedMovies.push(curMovie)
+        }
+    }
+    
+
+    
 
     // var curIndex = curMovies.length
     // for (let i = curIndex; i < curIndex + 5; i++) {
@@ -227,11 +248,13 @@ const searchMovieResults = async (word) => {
 
 async function searchMovie() {
     if (searchEngine.value != "") {
+        lastSearchedWord = searchEngine.value
         movieGridElem.innerHTML = ``
-        var newMovies = await searchMovieResults(searchEngine.value)
-        newMovies.forEach(addMovies)
+        searchedMovies = await searchMovieResults(searchEngine.value)
+        searchedMovies.forEach(addMovies)
         searchEngine.value = null
         searchEngine.placeholder = "Search Movie..."
+        loadingSearches = true
     }
     else {
         backToStandard()
@@ -250,8 +273,10 @@ document.addEventListener("keyup", function(event) {
 })
 
 function backToStandard() {
+    searchedMovies = new Array()
     movieGridElem.innerHTML = ``
     apiMovies.forEach(addMovies)
+    loadingSearches = false
 }
 
 function disappearPopup() {
