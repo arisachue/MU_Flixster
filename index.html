@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Flixster Website</title>
 
+    <!-- bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- linked to css -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="main-body">
+    <!-- popup window -->
     <div class="popup">
     </div>
+    <!-- website name and search engine -->
     <div class="heading">
         <div class="website-heading">
             <img class="popcorn" src="popcorn.png" alt="standing upright popcorn">
@@ -24,23 +28,23 @@
             <button id="close-search-btn" type="button" class="btn btn-default btn-lg" onclick="backToStandard()">Clear</button>
         </div>
     </div>
+    <!-- page identifier -->
     <h2 class="now-playing">
         Now Playing
     </h2>
+    <!-- movies -->
     <div class="movie-grid">
     </div>
+    <!-- load more and scroll to top buttons -->
     <div class="bottom-buttons">
         <button id="load-more-movies-btn" type="button" class="btn btn-default" onclick="loadMore()">Load More</button>
         <button id="top-button" type="button" class="btn btn-default" onclick="scrollToTop()">Scroll To the Top</button>
     </div>
     
-
+    <!-- linked to javascript -->
     <script src="script.js"></script>
     <!-- bootstrap -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-
-    
 </body>
 </html>
