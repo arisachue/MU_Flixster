@@ -47,7 +47,7 @@ body {
     justify-content: center;
     align-items: center;
 }
-#search {
+#search-input {
     border-radius: 10px;
     margin: 0 1rem 1rem 1rem;
     padding: 6px;
@@ -99,6 +99,7 @@ body {
 .now-playing {
     margin: 0 0 0 1rem;
     color: #235877;
+    font-size: 35px;
 }
 
 .popup {
@@ -206,7 +207,7 @@ body {
     display: flex;
 }
 
-.movie-rating {
+.movie-votes {
     position: absolute;
     top: 0;
     bottom: auto;
@@ -268,7 +269,7 @@ body {
     margin: 1rem;
 }
 
-#load-button, #top-button {
+#load-more-movies-btn, #top-button {
     background-color: #121E23;
     border: none;
     color: #6C7072;
