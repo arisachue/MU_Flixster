@@ -109,11 +109,12 @@ const movies = [
    }
 ];
 
-const imageBaseUrl = "https://image.tmdb.org/t/p/w300"
+const imageBaseUrl = "https://image.tmdb.org/t/p/w400"
 const movieGridElem = document.querySelector(".movie-grid")
 const searchEngine = document.querySelector("#search")
 const mainWebsite = document.querySelector(".popup")
 const ratings = document.querySelectorAll(".movie-rating")
+const webtitle = document.querySelector(".now-playing")
 const myApi = "e8308ebddbe7e86e8a3e6b1c2cb2b96e"
 var apiMovies = new Array()
 var searchedMovies = new Array()
@@ -158,13 +159,26 @@ const getResults = async () => {
 function addMovies(movie) {
     console.log("add movie")
     var movie_url = imageBaseUrl + movie.posterPath
+    var tomatoType = "fresh tomato"
+    var tomatoPic = "fresh-tomato.png"
+    if (movie.voteAverage < 6.5) {
+        tomatoType = "rotten tomato"
+        tomatoPic = "rotten-tomato.png"
+    }
+    if (movie.voteAverage > 7.5) {
+        tomatoType = "certified tomato"
+        tomatoPic = "certified-tomato.png"
+    }
     // console.log(movie_url)
     movieGridElem.innerHTML += `
         <div class="movie-item" id="movie-${movie.id}" onclick="openPopup(${movie.id})">
             <div class="outer-flip">
                 <div class="inner-flip">
                     <img class="movie-poster" src="${movie_url}" alt="${movie.title}">
-                    <h2 class="movie-rating">${movie.voteAverage}</h2>
+                    <div class="movie-rating">
+                        <h2>Rating: ${movie.voteAverage}</h2>
+                        <img class="freshTom" src="${tomatoPic}" alt="${tomatoType}">
+                    </div>
                 </div>
             </div>
             <h3 class="movie-name">${movie.title}</h3>
@@ -248,6 +262,7 @@ const searchMovieResults = async (word) => {
 
 async function searchMovie() {
     if (searchEngine.value != "") {
+        webtitle.innerHTML = "Search Results"
         lastSearchedWord = searchEngine.value
         movieGridElem.innerHTML = ``
         searchedMovies = await searchMovieResults(searchEngine.value)
@@ -273,6 +288,7 @@ document.addEventListener("keyup", function(event) {
 })
 
 function backToStandard() {
+    webtitle.innerHTML = "Now Playing"
     searchedMovies = new Array()
     movieGridElem.innerHTML = ``
     apiMovies.forEach(addMovies)
@@ -280,7 +296,14 @@ function backToStandard() {
 }
 
 function disappearPopup() {
-    document.querySelector(".popup").style.visibility = "hidden";
+    const popUpElement = document.querySelector(".popup")
+    const popUpChildElement = document.querySelector(".popupChild")
+    popUpElement.classList.remove("fadeIn")
+    popUpElement.classList.add("fadeOut")
+    setTimeout(() => {
+        popUpElement.removeChild(popUpChildElement)
+        popUpElement.style.visibility = "hidden";
+    }, 1000)
 }
 
 const openPopup = async (curID) => {
@@ -302,15 +325,23 @@ const openPopup = async (curID) => {
     var trailer_url = youtubeLink + trailerKey
     var trailer_summary = data.overview
 
+    const popUpElement = document.querySelector(".popup")
+    if (popUpElement.classList.length > 1) {
+        popUpElement.classList.remove("fadeOut")
+    }
+    popUpElement.classList.add("fadeIn")
+
     // trailer_url = "https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com" 
     // trailer_summary = "test summary"
-    mainWebsite.innerHTML = `
-        <button id="close" type="button" class="btn btn-default" onclick="disappearPopup()">X</button>
-        <iframe id="trailer" type="text/html" 
-        src="${trailer_url}" frameborder="0"></iframe>
-        <p id="summary">${trailer_summary}</p>
-    `
-    document.querySelector(".popup").style.visibility = "visible";
+    mainWebsite.innerHTML += `
+        <div class="popupChild">
+            <button id="close" type="button" class="btn btn-default" onclick="disappearPopup()">X</button>
+            <iframe id="trailer" type="text/html" 
+            src="${trailer_url}" frameborder="0"></iframe>
+            <h4>ABOUT</h4>
+            <p id="summary">${trailer_summary}</p>
+        </div>`
+    popUpElement.style.visibility = "visible";
 }
 
 

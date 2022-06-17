@@ -11,17 +11,22 @@
 </head>
 <body class="main-body">
     <div class="popup">
-
     </div>
     <div class="heading">
-        <div id="web-title" onclick="backToStandard()">Flixster</div>
+        <div class="website-heading">
+            <img class="popcorn" src="popcorn.png" alt="standing upright popcorn">
+            <div id="web-title" onclick="backToStandard()">Flixster</div>
+            <img class="popcorn" src="popcorn.png" alt="lying down popcorn">
+        </div>
         <div class="search-container">
             <input id="search" type="input" placeholder="Search Movie...">
             <button id="search-button" type="button" class="btn btn-default btn-lg" onclick="searchMovie()">Search</button>
         </div>
     </div>
+    <h2 class="now-playing">
+        Now Playing
+    </h2>
     <div class="movie-grid">
-        
     </div>
     <div class="bottom-buttons">
         <button id="load-button" type="button" class="btn btn-default" onclick="loadMore()">Load More</button>
