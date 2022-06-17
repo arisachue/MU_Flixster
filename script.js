@@ -176,8 +176,11 @@ function addMovies(movie) {
                 <div class="inner-flip">
                     <img class="movie-poster" src="${movie_url}" alt="${movie.title}">
                     <div class="movie-rating">
-                        <h2>Rating: ${movie.voteAverage}</h2>
-                        <img class="freshTom" src="${tomatoPic}" alt="${tomatoType}">
+                        <div class="movie-rating-title">
+                            <h2>Rating: ${movie.voteAverage}</h2>
+                            <img class="freshTom" src="${tomatoPic}" alt="${tomatoType}">
+                        </div>
+                        <p>(Click for More Details)</p>
                     </div>
                 </div>
             </div>
@@ -338,7 +341,7 @@ const openPopup = async (curID) => {
             <button id="close" type="button" class="btn btn-default" onclick="disappearPopup()">X</button>
             <iframe id="trailer" type="text/html" 
             src="${trailer_url}" frameborder="0"></iframe>
-            <h4>ABOUT</h4>
+            <h2>ABOUT</h2>
             <p id="summary">${trailer_summary}</p>
         </div>`
     popUpElement.style.visibility = "visible";
