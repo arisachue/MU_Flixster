@@ -38,6 +38,10 @@ Estimated time spent: 25 hours spent in total
 
 ### Walkthrough Video
 
+
+https://user-images.githubusercontent.com/62860690/174506401-0554e423-6526-43bf-97fa-34dcb59c4727.mp4
+
+
 https://www.screencast.com/t/Uh3KQ7S0bWC
 
 ### Reflection
