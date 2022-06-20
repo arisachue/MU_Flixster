@@ -4,6 +4,8 @@ Submitted by: Arisa Chue
 
 Estimated time spent: 25 hours spent in total
 
+Deployed Application: https://arisachue.github.io/MU_Flixster/
+
 ### Application Features
 
 #### CORE FEATURES
@@ -30,7 +32,7 @@ Estimated time spent: 25 hours spent in total
 
 #### STRETCH FEATURES
 
-- [ ] Deploy website using GitHub Pages. 
+- [X] Deploy website using GitHub Pages. 
 - [X] Allow user to view more details about a movie within a popup.
 - [X] Improve the user experience through CSS & animation.
 - [X] Allow movie video trailers to be played using [embedded YouTube](https://support.google.com/youtube/answer/171780?hl=en)
